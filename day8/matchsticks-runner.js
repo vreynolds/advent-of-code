@@ -13,5 +13,8 @@ readable.on('readable', function() {
 	while (null !== (chunk = readable.read(1))) {
 		counter.add(chunk);
 	}
+	console.log('part 1');
 	console.log(counter.total() - counter.stringLength());
+	console.log('part 2');
+	console.log(counter.encodedLength() - counter.total());
 });

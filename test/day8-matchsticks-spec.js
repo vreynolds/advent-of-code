@@ -1,6 +1,6 @@
 var matchsticks = require('../src/day8-matchsticks');
 
-describe('Day 8: Matchsticks', function() {
+describe('Day 8: Matchsticks part 1', function() {
 	describe('characters', function() {
 		it('starts out as 0', function() {
 			var counter = new matchsticks.counter();
@@ -140,5 +140,91 @@ describe('Day 8: Matchsticks', function() {
 		counter.add('"');
 
 		expect(counter.total() - counter.stringLength()).toBe(12);
+	});
+});
+
+describe('Day 8: Matchsticks part 2', function() {
+	describe('encoded string length', function() {
+		it('empty string', function() {
+			var counter = new matchsticks.counter();
+			counter.add('"');
+			counter.add('"');
+			counter.add('\n');
+			expect(counter.encodedLength()).toBe(6);
+		});
+		it('single quote', function() {
+			var counter = new matchsticks.counter();
+			counter.add('"');
+			counter.add('\\');
+			counter.add('"');
+			counter.add('"');
+			counter.add('\n');
+			expect(counter.encodedLength()).toBe(10);
+		});
+		it('single backslash', function() {
+			var counter = new matchsticks.counter();
+			counter.add('"');
+			counter.add('\\');
+			counter.add('\\');
+			counter.add('"');
+			counter.add('\n');
+			expect(counter.encodedLength()).toBe(10);
+		});
+		it('single ASCII sequence', function() {
+			var counter = new matchsticks.counter();
+			counter.add('"');
+			counter.add('\\');
+			counter.add('x');
+			counter.add('1');
+			counter.add('2');
+			counter.add('"');
+			counter.add('\n');
+			expect(counter.encodedLength()).toBe(11);
+		});
+		it('multiple strings', function() {
+			var counter = new matchsticks.counter();
+			counter.add('"');
+			counter.add('a');
+			counter.add('"');
+			counter.add('\n');
+			counter.add('"');
+			counter.add('b');
+			counter.add('"');
+			counter.add('\n');
+			expect(counter.encodedLength()).toBe(14);
+		});
+	});
+
+	it('example', function() {
+		var counter = new matchsticks.counter();
+		counter.add('"');
+		counter.add('"');
+		counter.add('\n');
+		counter.add('"');
+		counter.add('a');
+		counter.add('b');
+		counter.add('c');
+		counter.add('"');
+		counter.add('\n');
+		counter.add('"');
+		counter.add('a');
+		counter.add('a');
+		counter.add('a');
+		counter.add('\\');
+		counter.add('"');
+		counter.add('a');
+		counter.add('a');
+		counter.add('a');
+		counter.add('"');
+		counter.add('\n');
+		counter.add('"');
+		counter.add('\\');
+		counter.add('x');
+		counter.add('2');
+		counter.add('7');
+		counter.add('"');
+
+		expect(counter.encodedLength()).toBe(6 + 9 + 16 + 11);
+		expect(counter.encodedLength() - counter.total()).toBe(19);
 	});
 });

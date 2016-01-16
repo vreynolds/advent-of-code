@@ -1,6 +1,7 @@
 var counter = function() {
 	var totalCharacters = 0;
 	var stringLength = 0;
+	var encodedLength = 0;
 
 	var escaping = false;
 	var escapingASCII = false;
@@ -11,6 +12,15 @@ var counter = function() {
 		var character = input.trim();
 		if (character.length > 0) {
 			totalCharacters++;
+			encodedLength++;
+
+			if (character === '"' || character === '\\') {
+				encodedLength++;
+			}
+
+			if(character === '"' && !escaping) {
+				encodedLength++;
+			}
 
 			if (escaping) {
 				if (escapingASCII) {
@@ -45,12 +55,17 @@ var counter = function() {
 
 	var getStringLength = function() {
 		return stringLength;
-	}
+	};
+
+	var getEncodedLength = function() {
+		return encodedLength;
+	};
 
 	return {
 		add: add,
 		total: getTotal,
-		stringLength: getStringLength
+		stringLength: getStringLength,
+		encodedLength: getEncodedLength
 	}
 };
 

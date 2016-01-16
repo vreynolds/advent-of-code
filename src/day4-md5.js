@@ -1,13 +1,13 @@
 var md5 = require('md5');
-var _s = require('underscore.string');
+var s = require('underscore.string');
 
-var findHash = function(secret) {
+var findHash = function(secret, startingSequence) {
 	var answer;
 	var candidate = 1;
 
 	while(!answer) {
 		var hash = md5(secret + candidate);
-		if(_s.startsWith(hash, '00000')) {
+		if(s.startsWith(hash, startingSequence)) {
 			answer = candidate;
 		}
 		candidate++;
