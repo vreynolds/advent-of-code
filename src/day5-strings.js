@@ -1,4 +1,5 @@
-var _s = require('underscore.string');
+var s = require('underscore.string');
+var _ = require('underscore');
 
 var isVowel = function(character) {
 	return character === 'a' || character === 'e' || character === 'i' || character === 'o' || character === 'u';
@@ -12,7 +13,7 @@ var isNice = function(string) {
 	for (var i = 0; i < string.length; i++) {
 		var character = string.charAt(i);
 
-		if(isVowel(character)) {
+		if (isVowel(character)) {
 			numberOfVowels++;
 		}
 
@@ -22,9 +23,43 @@ var isNice = function(string) {
 
 		previousCharacter = character;
 	};
-	return numberOfVowels > 2 && doubleCharacter && !_s.include(string, 'ab') && !_s.include(string, 'cd') && !_s.include(string, 'pq') && !_s.include(string, 'xy');
+	return numberOfVowels > 2 && doubleCharacter && !s.include(string, 'ab') && !s.include(string, 'cd') && !s.include(string, 'pq') && !s.include(string, 'xy');
+};
+
+var isNicer = function(string) {
+	var multiplePairs = false;
+	var sandwichedLetter = false;
+
+	var firstLetter, secondLetter, thirdLetter;
+	for (var i = 0; i < string.length; i++) {
+		firstLetter = secondLetter;
+		secondLetter = thirdLetter;
+		thirdLetter = string.charAt(i);
+
+		if (secondLetter !== undefined) {
+			var pair = secondLetter + thirdLetter;
+			if (stringContainsMoreThanOne(string, pair)) {
+				multiplePairs = true;
+			}
+		}
+
+		if (firstLetter !== undefined) {
+			if (firstLetter == thirdLetter) {
+				sandwichedLetter = true;
+			}
+		}
+
+		if (multiplePairs && sandwichedLetter) break;
+	}
+
+	return multiplePairs && sandwichedLetter;
+};
+
+var stringContainsMoreThanOne = function(string, substring) {
+	return s.count(string, substring) > 1;
 };
 
 module.exports = {
-	isNice: isNice
+	isNice: isNice,
+	isNicer: isNicer
 };

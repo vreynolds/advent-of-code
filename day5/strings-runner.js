@@ -7,12 +7,17 @@ fs.readFile('./nice-naughty.txt', 'utf8', function(err, data) {
 	}
 	var strings = data.split('\n');
 	var niceStringCount = 0;
+	var nicerStringCount = 0;
 
 	for (var i = 0; i < strings.length; i++) {
 		if (judge.isNice(strings[i])) {
 			niceStringCount++;
 		}
+		if (judge.isNicer(strings[i])) {
+			nicerStringCount++;
+		}
 	}
 
-	console.log(niceStringCount);
+	console.log('Nice strings: ' + niceStringCount);
+	console.log('Nicer strings: ' + nicerStringCount);
 });
