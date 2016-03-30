@@ -1,3 +1,5 @@
+var _ = require('underscore');
+
 var increment = function(input) {
     var incrementedPassword = '';
     var index;
@@ -21,6 +23,61 @@ var incrementLetter = function(letter) {
     }
 };
 
+var isValid = function(password) {
+    var validNumberOfConsecutiveLetters = false;
+    var validNumberOfPairedLetters = false;
+    var noForbiddenLetters = true;
+    var pairedLetters = [];
+
+    var consecutiveLetterCount;
+    for (var i = 0; i < password.length; i++) {
+        if (!validNumberOfConsecutiveLetters) {
+            var currentLetterCode = password.charCodeAt(i);
+            var previousLetterCode = password.charCodeAt(i - 1);
+            consecutiveLetterCount = updateConsecutiveLetterCount(currentLetterCode, previousLetterCode, consecutiveLetterCount);
+            validNumberOfConsecutiveLetters = consecutiveLetterCount > 1;
+        }
+        var currentLetter = password[i];
+        var previousLetter = password[i - 1];
+        if (noForbiddenLetters && isForbidden(currentLetter)) {
+            noForbiddenLetters = false;
+        }
+        if (currentLetter === previousLetter) {
+            pairedLetters.push(currentLetter);
+        }
+    }
+
+    validNumberOfPairedLetters = _.uniq(pairedLetters).length > 1;
+
+    return validNumberOfConsecutiveLetters && noForbiddenLetters && validNumberOfPairedLetters;
+};
+
+var updateConsecutiveLetterCount = function(
+    currentLetterCode,
+    previousLetterCode,
+    consecutiveLetterCount) {
+
+    if (currentLetterCode === (previousLetterCode + 1)) {
+        return consecutiveLetterCount + 1;
+    } else {
+        return 0;
+    }
+};
+
+var isForbidden = function(letter) {
+    return (letter === 'i') || (letter === 'o') || (letter === 'l');
+};
+
+var nextPassword = function(oldPassword) {
+    var newPassword = increment(oldPassword);
+    while (!isValid(newPassword)) {
+        newPassword = increment(newPassword);
+    }
+    return newPassword;
+};
+
 module.exports = {
-    increment: increment
+    increment: increment,
+    isValid: isValid,
+    nextPassword: nextPassword
 };
