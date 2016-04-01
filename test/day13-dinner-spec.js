@@ -68,4 +68,17 @@ describe('Day 13: Knights of the Dinner Table', function() {
             expect(seater.optimize(input)).toBe(330);
         });
     });
+    
+    describe('part 2: adding an ambivalent guest', function() {
+        it('optimal happiness with 3 (+1) people', function() {
+            var entry1 = 'Alice would gain 3 happiness units by sitting next to Bob.';
+            var entry2 = 'Alice would lose 2 happiness units by sitting next to Job.';
+            var entry3 = 'Bob would lose 1 happiness units by sitting next to Alice.';
+            var entry4 = 'Bob would gain 2 happiness units by sitting next to Job.';
+            var entry5 = 'Job would gain 1 happiness units by sitting next to Alice.';
+            var entry6 = 'Job would lose 3 happiness units by sitting next to Bob.';
+            var input = [entry1, entry2, entry3, entry4, entry5, entry6].join('\n');
+            expect(seater.optimize(input, true)).toBe(1);
+        });
+    });
 });

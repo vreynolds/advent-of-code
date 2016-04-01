@@ -7,4 +7,5 @@ fs.readFile('./input.txt', 'utf8', function(err, data) {
     }
 
     console.log('part1', seater.optimize(data));
+    console.log('part2', seater.optimize(data, true));
 });

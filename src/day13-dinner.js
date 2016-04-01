@@ -1,7 +1,7 @@
 var _ = require('underscore');
 var s = require('underscore.string');
 
-var optimize = function(input) {
+var optimize = function(input, addAmbivalentGuest) {
     var gains = 0;
     var happinessCalculations = [];
     var persons = [];
@@ -29,8 +29,28 @@ var optimize = function(input) {
         });
         persons.push(name1);
     }
-
     persons = _.uniq(persons);
+
+    if (addAmbivalentGuest) {
+        var ambivalentGuest = 'Self';
+
+        for (var index = 0; index < persons.length; index++) {
+            var person = persons[index];
+            happinessCalculations.push({
+                person: ambivalentGuest,
+                neighbor: person,
+                score: 0
+            });
+            happinessCalculations.push({
+                person: person,
+                neighbor: ambivalentGuest,
+                score: 0
+            });
+        }
+
+        persons.push(ambivalentGuest);
+    }
+
     var firstPersonArray = [persons[0]];
     persons.splice(0, 1);
 
