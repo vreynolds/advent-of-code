@@ -53,4 +53,32 @@ describe('Day 15: Science for Hungry People', function() {
             expect(cookies.bestScore(input, 100)).toBe(62842880);
         });
     });
+    describe('part 2 the best recipe score restricted by calories', function() {
+        it('given 1 ingredient and 1 spoon within calories', function() {
+            var input = 'Sprinkles: capacity 1, durability 2, flavor 3, texture 4, calories 3';
+            expect(cookies.bestScore(input, 1, 3)).toBe(24);
+        });
+        it('given 1 ingredient and 1 spoon exceeding calories', function() {
+            var input = 'Sprinkles: capacity 1, durability 2, flavor 3, texture 4, calories 3';
+            expect(cookies.bestScore(input, 1, 2)).toBe(0);
+        });
+        it('given multiple ingredients and spoons within calories', function() {
+            var input1 = 'Butterscotch: capacity -1, durability -2, flavor 6, texture 3, calories 8';
+            var input2 = 'Cinnamon: capacity 2, durability 3, flavor -2, texture -1, calories 3';
+            var input = [input1, input2].join('\n');
+            expect(cookies.bestScore(input, 2, 11)).toBe(8);
+        });
+        it('given multiple ingredients and spoons exceeding calories', function() {
+            var input1 = 'Butterscotch: capacity -1, durability -2, flavor 6, texture 3, calories 8';
+            var input2 = 'Cinnamon: capacity 2, durability 3, flavor -2, texture -1, calories 3';
+            var input = [input1, input2].join('\n');
+            expect(cookies.bestScore(input, 2, 10)).toBe(0);
+        });
+        it('example', function() {
+            var input1 = 'Butterscotch: capacity -1, durability -2, flavor 6, texture 3, calories 8';
+            var input2 = 'Cinnamon: capacity 2, durability 3, flavor -2, texture -1, calories 3';
+            var input = [input1, input2].join('\n');
+            expect(cookies.bestScore(input, 100, 500)).toBe(57600000);
+        });
+    });
 });

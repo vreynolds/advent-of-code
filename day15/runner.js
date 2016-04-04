@@ -7,4 +7,5 @@ fs.readFile('./input.txt', 'utf8', function(err, data) {
     }
     
     console.log('part1 best score', cookies.bestScore(data, 100));
+    console.log('part1 best score within 500 calories', cookies.bestScore(data, 100, 500));
 });

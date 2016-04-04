@@ -1,7 +1,7 @@
 var _ = require('underscore');
 var s = require('underscore.string');
 
-var bestScore = function(input, spoons) {
+var bestScore = function(input, spoons, caloricRestriction) {
     if (input.length < 1) {
         return 0;
     }
@@ -21,18 +21,19 @@ var bestScore = function(input, spoons) {
 
     for (var index = 0; index < possibleCombinations.length; index++) {
         var combination = possibleCombinations[index];
-        scores.push(calculateScore(combination, ingredients));
+        scores.push(calculateScore(combination, ingredients, caloricRestriction));
     }
 
     return _.max(scores);
 };
 
-var calculateScore = function(combination, ingredients) {
+var calculateScore = function(combination, ingredients, caloricRestriction) {
     var propertyScores = {
         capacity: 0,
         durability: 0,
         flavor: 0,
-        texture: 0
+        texture: 0,
+        calories: 0
     };
 
     for (var index = 0; index < combination.length; index++) {
@@ -40,10 +41,12 @@ var calculateScore = function(combination, ingredients) {
         var spoons = combination[index].spoons;
 
         var ingredientProperties = _.findWhere(ingredients, { name: name });
+        
         propertyScores.capacity += ingredientProperties.capacity * spoons;
         propertyScores.durability += ingredientProperties.durability * spoons;
         propertyScores.flavor += ingredientProperties.flavor * spoons;
         propertyScores.texture += ingredientProperties.texture * spoons;
+        propertyScores.calories += ingredientProperties.calories * spoons;
     }
 
     var totalScore
@@ -51,6 +54,10 @@ var calculateScore = function(combination, ingredients) {
         * nullifyNegative(propertyScores.durability)
         * nullifyNegative(propertyScores.flavor)
         * nullifyNegative(propertyScores.texture);
+
+    if (caloricRestriction && propertyScores.calories > caloricRestriction) {
+        totalScore = 0;
+    }
 
     return totalScore;
 };
@@ -110,13 +117,15 @@ var getIngredientProperties = function(input) {
     var durability = s.toNumber((words[4]).slice(0, -1));
     var flavor = s.toNumber((words[6]).slice(0, -1));
     var texture = s.toNumber((words[8]).slice(0, -1));
+    var calories = s.toNumber(words[10]);
 
     return {
         name: name,
         capacity: capacity,
         durability: durability,
         flavor: flavor,
-        texture: texture
+        texture: texture,
+        calories: calories
     };
 };
 
