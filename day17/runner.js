@@ -6,4 +6,5 @@ fs.readFile('./input.txt', 'utf8', function(err, data) {
         return console.log(err);
     }
     console.log('part1 combinations', containers.getCombinations(data, 150));
+    console.log('part1 minimized combinations', containers.getCombinations(data, 150, true));
 });

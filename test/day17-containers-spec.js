@@ -47,4 +47,23 @@ describe('Day 17: No Such Thing as Too Much', function() {
             expect(containers.getCombinations(input, 25)).toBe(4);
         });
     });
+
+    describe('part 2 minimized container combinations', function() {
+        it('given multiple containers with possible surplus containers', function() {
+            var input1 = ['3'];
+            var input2 = ['2'];
+            var input3 = ['1'];
+            var input = [input1, input2, input3].join('\n');
+            expect(containers.getCombinations(input, 3, true)).toBe(1);
+        });
+        it('example', function() {
+            var input1 = ['20'];
+            var input2 = ['15'];
+            var input3 = ['10'];
+            var input4 = ['5'];
+            var input5 = ['5'];
+            var input = [input1, input2, input3, input4, input5].join('\n');
+            expect(containers.getCombinations(input, 25, true)).toBe(3);
+        });
+    });
 });
