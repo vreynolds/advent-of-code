@@ -108,7 +108,14 @@ var countNeighborLights = function(row, col, size, grid) {
     return neighborsLights;
 };
 
-var animate = function(grid, size) {
+var isCorner = function(row, col, size) {
+    return (row === 0 && col === 0)
+        || (row === 0 && col === size - 1)
+        || (row === size - 1 && col === 0)
+        || (row === size - 1 && col === size - 1);
+};
+
+var animate = function(grid, size, stuckCorners) {
     var newGrid = defaultGrid(size, false);
 
     for (var r = 0; r < grid.length; r++) {
@@ -118,19 +125,25 @@ var animate = function(grid, size) {
             if ((light && (neighborLights === 2 || neighborLights === 3)) || (!light && neighborLights === 3)) {
                 newGrid[r][c] = true;
             }
+            if (stuckCorners && isCorner(r, c, size)) {
+                newGrid[r][c] = true;
+            }
         }
     }
 
     return newGrid;
 };
 
-var light = function(input, steps) {
+var light = function(input, steps, stuckCorners) {
     var rows = s.lines(input);
+    if (rows.length < 2) {
+        return 0;
+    }
     var size = rows.length;
     var grid = translateToGrid(rows);
 
     for (var step = 0; step < steps; step++) {
-        grid = animate(grid, size);
+        grid = animate(grid, size, stuckCorners);
     }
 
     return countLights(grid);

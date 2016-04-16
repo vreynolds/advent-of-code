@@ -6,4 +6,5 @@ fs.readFile('./input.txt', 'utf8', function(err, data) {
         return console.log(err);
     }
     console.log('part1', animator.light(data, 100));
+    console.log('part2, stuck corners', animator.light(data, 100, true));
 });

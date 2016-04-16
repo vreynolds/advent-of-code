@@ -74,4 +74,38 @@ describe('Day 18: Like a GIF For Your Yard', function() {
             expect(animator.light(input, steps)).toBe(4);
         });
     });
+    describe('part 2 with stuck corners', function() {
+        it('given an empty grid', function() {
+            var input = '';
+            var steps = 10;
+            expect(animator.light(input, steps, true)).toBe(0);
+        });
+        it('given 0 steps', function() {
+            var input1 = '###';
+            var input2 = '#.#';
+            var input3 = '###';
+            var input = [input1, input2, input3].join('\n');
+            var steps = 0;
+            expect(animator.light(input, steps, true)).toBe(8);
+        });
+        it('corners are not affected by rules', function() {
+            var input1 = '###';
+            var input2 = '...';
+            var input3 = '###';
+            var input = [input1, input2, input3].join('\n');
+            var steps = 1;
+            expect(animator.light(input, steps, true)).toBe(6);
+        });
+        it('multistep example', function() {
+            var input1 = '##.#.#';
+            var input2 = '...##.';
+            var input3 = '#....#';
+            var input4 = '..#...';
+            var input5 = '#.#..#';
+            var input6 = '####.#';
+            var input = [input1, input2, input3, input4, input5, input6].join('\n');
+            var steps = 5;
+            expect(animator.light(input, steps, true)).toBe(17);
+        });
+    });
 });
